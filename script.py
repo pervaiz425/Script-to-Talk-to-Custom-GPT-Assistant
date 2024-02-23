@@ -5,18 +5,14 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
+from dotenv import load_dotenv
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 load_dotenv()
 api_key = os.environ.get("API_KEY")
 print(api_key)
-
-# The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = "1cIA3oSnKJb83LaYdZMOzX7cd_KDcR7kd-vprBb-y-GE"
-# SAMPLE_RANGE_NAME = "Sheet1A1"
-
+SAMPLE_SPREADSHEET_ID = os.environ.get("SAMPLE_SPREADSHEET_ID")
 
 def main():
   credentials = None
@@ -54,11 +50,7 @@ def main():
     if not values:
       print("No data found.")
       return
-
-    # print("Name, Major:")
-    # for row in values:
-    #   # Print columns A and E, which correspond to indices 0 and 4.
-    #   print(f"{row[0]}, {row[4]}")
+    
   except HttpError as err:
      print(err)
 

@@ -1,12 +1,18 @@
 from openai import OpenAI
 import time
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+import pandas as pd
 
 load_dotenv()
 api_key = os.environ.get("API_KEY")
 print(api_key)
-assistant_id = "asst_ChbqIX9ldZUEOr5rOs1zAq2j"
+assistant_id = os.environ.get("ASSISTANT_ID")
+print(assistant_id)
+
+df = pd.read_excel("test.xlsx")
+excel_content = df.to_string(index=False)
+
 client = OpenAI(api_key = api_key)
 
 thread = client.beta.threads.create()
@@ -16,12 +22,13 @@ message = client.beta.threads.create(
     messages = [
         {
             "role": "user",
-            "content": "How are you?",
+            "content": f"Here is the excel content: {excel_content}",
         }
     ]
 )
 
 run = client.beta.threads.runs.create(
+
   thread_id=thread.id,
   assistant_id=assistant_id,
 )
